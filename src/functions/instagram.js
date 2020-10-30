@@ -17,7 +17,9 @@
 //     });
 // }
 
-// const url = `https://www.instagram.com/graphql/query/?query_hash=56a7068fea504063273cc2120ffd54f3&variables={"id": "528817151","first":12}`;
+const url = `https://www.instagram.com/graphql/query/?query_hash=56a7068fea504063273cc2120ffd54f3&variables={"id": "528817151","first":12}`;
+
+console.log(url);
 
 // https://www.instagram.com/graphql/query/?query_id=17851374694183129&id=%3C528817151%3E&first=1000&after=%3Cend_cursor%3E
 
