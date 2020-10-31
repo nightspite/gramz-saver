@@ -1,8 +1,12 @@
 import React from 'react';
-// import { getPosts } from 'functions/instagram';
+import GetPosts from './GetPosts';
 
 function App() {
-  return <div className="App">ebe</div>;
+  return (
+    <div className="App">
+      <GetPosts />
+    </div>
+  );
 }
 
 export default App;
