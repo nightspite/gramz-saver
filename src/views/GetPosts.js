@@ -18,7 +18,12 @@ function useGetPosts() {
 
   return posts;
 }
-const StyledDiv = styled.div`
+
+const StyledWrapper = styled.div``;
+
+const StyledPostWrapper = styled.div``;
+
+const StyledImageWrapper = styled.div`
   display: inline-block;
   width: 300px;
   height: 350px;
@@ -32,50 +37,52 @@ export default function GetPosts() {
   const gramz = useGetPosts();
 
   return (
-    <div>
-      {gramz.map((gram) =>
-        gram.sideImages ? (
-          gram.sideImages.map((image) =>
-            image.isVideo === true ? (
-              <StyledDiv>
-                <a href={image.video} key={gram.postId}>
-                  <StyledImage src={image.thumbnail} alt={gram.postId} />
-                </a>
-                <a
-                  href={`https://instagram.com/p/${gram.postShortcode}`}
-                >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-              </StyledDiv>
-            ) : (
-              <StyledDiv>
-                <a href={image.image} key={gram.postId}>
-                  <StyledImage src={image.thumbnail} alt={gram.postId} />
-                </a>
-                <a
-                  href={`https://instagram.com/p/${gram.postShortcode}`}
-                >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-              </StyledDiv>
-            ),
-          )
-        ) : gram.isVideo === true ? (
-          <StyledDiv>
-            <a href={gram.video} key={gram.postId}>
-              <StyledImage src={gram.thumbnail} alt={gram.postId} />
-            </a>
-            <a
-              href={`https://instagram.com/p/${gram.postShortcode}`}
-            >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-          </StyledDiv>
-        ) : (
-          <StyledDiv>
-            <a href={gram.image} key={gram.postId}>
-              <StyledImage src={gram.thumbnail} alt={gram.postId} />
-            </a>
-            <a
-              href={`https://instagram.com/p/${gram.postShortcode}`}
-            >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-          </StyledDiv>
-        ),
-      )}
-    </div>
+    <StyledWrapper>
+      {gramz.map((gram) => (
+        <StyledPostWrapper>
+          {gram.sideImages ? (
+            gram.sideImages.map((image) =>
+              image.isVideo === true ? (
+                <StyledImageWrapper>
+                  <a href={image.video} key={gram.postId}>
+                    <StyledImage src={image.thumbnail} alt={gram.postId} />
+                  </a>
+                  <a
+                    href={`https://instagram.com/p/${gram.postShortcode}`}
+                  >{`https://instagram.com/p/${gram.postShortcode}`}</a>
+                </StyledImageWrapper>
+              ) : (
+                <StyledImageWrapper>
+                  <a href={image.image} key={gram.postId}>
+                    <StyledImage src={image.thumbnail} alt={gram.postId} />
+                  </a>
+                  <a
+                    href={`https://instagram.com/p/${gram.postShortcode}`}
+                  >{`https://instagram.com/p/${gram.postShortcode}`}</a>
+                </StyledImageWrapper>
+              ),
+            )
+          ) : gram.isVideo === true ? (
+            <StyledImageWrapper>
+              <a href={gram.video} key={gram.postId}>
+                <StyledImage src={gram.thumbnail} alt={gram.postId} />
+              </a>
+              <a
+                href={`https://instagram.com/p/${gram.postShortcode}`}
+              >{`https://instagram.com/p/${gram.postShortcode}`}</a>
+            </StyledImageWrapper>
+          ) : (
+            <StyledImageWrapper>
+              <a href={gram.image} key={gram.postId}>
+                <StyledImage src={gram.thumbnail} alt={gram.postId} />
+              </a>
+              <a
+                href={`https://instagram.com/p/${gram.postShortcode}`}
+              >{`https://instagram.com/p/${gram.postShortcode}`}</a>
+            </StyledImageWrapper>
+          )}
+        </StyledPostWrapper>
+      ))}
+    </StyledWrapper>
   );
 }
