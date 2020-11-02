@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import slimUpPosts from '../functions/slimUpPosts';
-import NotFound from './NotFound';
+// import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
 
@@ -25,7 +25,10 @@ function GetPosts({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [gramz, setGramz] = useState([]);
-  const username = location.pathname.match(/[^/]*$/);
+  const username = location.pathname
+    .split('/')
+    .filter((e) => e)
+    .pop();
 
   useEffect(() => {
     fetch(`https://instagram.com/${username}/?__a=1`)
@@ -71,9 +74,9 @@ function GetPosts({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  if (gramz.length === 0) {
-    return <NotFound />;
-  }
+  // if (gramz.length === 0) {
+  //   return <NotFound />;
+  // }
   return (
     <StyledWrapper>
       {gramz.map((gram) => (
