@@ -24,11 +24,15 @@ const StyledImage = styled.img`
 function GetPost({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [gramz, setGramz] = useState([]);
-  const shortcode = location.pathname.match(/[^/]*$/);
+  const [gramz, setgramz] = useState([]);
+  const shortcode = location.pathname
+    .split('/')
+    .filter((e) => e)
+    .pop();
 
   useEffect(() => {
-    fetch(`https://instagram.com/p/${shortcode}/?__a=1`)
+    const url = `https://www.instagram.com/p/${shortcode}/?__a=1`;
+    fetch(url)
       .then((res) =>
         res.status !== 200
           ? console.log(
@@ -36,33 +40,17 @@ function GetPost({ location }) {
             )
           : res.json(),
       )
-      .then((data) => {
-        const url = `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":${data.graphql.user.id},"first":50}`;
-        fetch(url)
-          .then((res) =>
-            res.status !== 200
-              ? console.log(
-                  `Looks like there was a problem. Status Code: ${res.status}`,
-                )
-              : res.json(),
-          )
-          .then(
-            (result) => {
-              setIsLoaded(true);
-              setGramz(slimUpPost(result));
-            },
-            (error) => {
-              setIsLoaded(true);
-              setErrors(error);
-              console.log(error);
-            },
-          );
-      })
-      .then((error) => {
-        setIsLoaded(true);
-        setErrors(error);
-        console.log(error);
-      });
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setgramz(slimUpPost(result));
+        },
+        (error) => {
+          setIsLoaded(true);
+          setErrors(error);
+          console.log(error);
+        },
+      );
   }, []);
 
   if (errors) {
@@ -76,51 +64,49 @@ function GetPost({ location }) {
   }
   return (
     <StyledWrapper>
-      {gramz.map((gram) => (
-        <StyledPostWrapper key={gram.postId}>
-          {gram.sideImages ? (
-            gram.sideImages.map((image, key) =>
-              image.isVideo === true ? (
-                <StyledImageWrapper key={gram.postId + key.toString()}>
-                  <a href={image.video}>
-                    <StyledImage src={image.thumbnail} alt={gram.postId} />
-                  </a>
-                  <a
-                    href={`https://instagram.com/p/${gram.postShortcode}`}
-                  >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-                </StyledImageWrapper>
-              ) : (
-                <StyledImageWrapper key={gram.postId + key.toString()}>
-                  <a href={image.image}>
-                    <StyledImage src={image.thumbnail} alt={gram.postId} />
-                  </a>
-                  <a
-                    href={`https://instagram.com/p/${gram.postShortcode}`}
-                  >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-                </StyledImageWrapper>
-              ),
-            )
-          ) : gram.isVideo === true ? (
-            <StyledImageWrapper key={gram.postId}>
-              <a href={gram.video}>
-                <StyledImage src={gram.thumbnail} alt={gram.postId} />
-              </a>
-              <a
-                href={`https://instagram.com/p/${gram.postShortcode}`}
-              >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-            </StyledImageWrapper>
-          ) : (
-            <StyledImageWrapper key={gram.postId}>
-              <a href={gram.image}>
-                <StyledImage src={gram.thumbnail} alt={gram.postId} />
-              </a>
-              <a
-                href={`https://instagram.com/p/${gram.postShortcode}`}
-              >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-            </StyledImageWrapper>
-          )}
-        </StyledPostWrapper>
-      ))}
+      <StyledPostWrapper key={gramz.postId}>
+        {gramz.sideImages ? (
+          gramz.sideImages.map((image, key) =>
+            image.isVideo === true ? (
+              <StyledImageWrapper key={gramz.postId + key.toString()}>
+                <a href={image.video}>
+                  <StyledImage src={image.thumbnail} alt={gramz.postId} />
+                </a>
+                <a
+                  href={`https://instagram.com/p/${gramz.postShortcode}`}
+                >{`https://instagram.com/p/${gramz.postShortcode}`}</a>
+              </StyledImageWrapper>
+            ) : (
+              <StyledImageWrapper key={gramz.postId + key.toString()}>
+                <a href={image.image}>
+                  <StyledImage src={image.thumbnail} alt={gramz.postId} />
+                </a>
+                <a
+                  href={`https://instagram.com/p/${gramz.postShortcode}`}
+                >{`https://instagram.com/p/${gramz.postShortcode}`}</a>
+              </StyledImageWrapper>
+            ),
+          )
+        ) : gramz.isVideo === true ? (
+          <StyledImageWrapper key={gramz.postId}>
+            <a href={gramz.video}>
+              <StyledImage src={gramz.thumbnail} alt={gramz.postId} />
+            </a>
+            <a
+              href={`https://instagram.com/p/${gramz.postShortcode}`}
+            >{`https://instagram.com/p/${gramz.postShortcode}`}</a>
+          </StyledImageWrapper>
+        ) : (
+          <StyledImageWrapper key={gramz.postId}>
+            <a href={gramz.image}>
+              <StyledImage src={gramz.thumbnail} alt={gramz.postId} />
+            </a>
+            <a
+              href={`https://instagram.com/p/${gramz.postShortcode}`}
+            >{`https://instagram.com/p/${gramz.postShortcode}`}</a>
+          </StyledImageWrapper>
+        )}
+      </StyledPostWrapper>
     </StyledWrapper>
   );
 }

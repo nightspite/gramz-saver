@@ -5,10 +5,10 @@ import { routes } from '../routes';
 // import styled from 'styled-components';
 
 function FindPost() {
-  const [username, setUsername] = useState('');
+  const [shortcode, setShortcode] = useState('');
 
   const handleChange = (event) => {
-    setUsername(event.target.value);
+    setShortcode(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -20,10 +20,20 @@ function FindPost() {
       <input
         type="text"
         placeholder="link to a post"
-        value={username}
+        value={shortcode}
         onChange={handleChange}
       />
-      <Link to={routes.post + username}>find post</Link>
+      <Link
+        to={
+          routes.post +
+          shortcode
+            .split('/')
+            .filter((e) => e)
+            .pop()
+        }
+      >
+        find post
+      </Link>
     </form>
   );
 }

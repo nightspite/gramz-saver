@@ -1,3 +1,13 @@
+/* eslint-disable no-undef */
+require('isomorphic-fetch');
+
+const url = `https://www.instagram.com/p/CHAZ26ihoyP/?__a=1`;
+
+const cache = {
+  lastFetch: 0,
+  posts: [],
+};
+
 const slimUpPost = (response) => {
   return response.graphql.shortcode_media.edge_sidecar_to_children
     ? {
@@ -25,4 +35,24 @@ const slimUpPost = (response) => {
       };
 };
 
-export default slimUpPost;
+async function getPosts() {
+  const timeSinceLastFetch = Date.now() - cache.lastFetch;
+  if (timeSinceLastFetch <= 1800000) {
+    return cache.posts;
+  }
+  const data = await fetch(url).then((res) => res.json());
+  const posts = slimUpPost(data);
+  cache.lastFetch = Date.now();
+  cache.posts = posts;
+  return posts;
+}
+exports.handler = async (event, context, callback) => {
+  const posts = await getPosts();
+  callback(null, {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(posts),
+  });
+};
