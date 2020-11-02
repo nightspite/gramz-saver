@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 require('isomorphic-fetch');
 
-const url = `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":"1454640826","first":50}`;
+const url = `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":"953293389","first":50}`;
 
 const cache = {
   lastFetch: 0,
@@ -56,6 +56,9 @@ exports.handler = async (event, context, callback) => {
   const posts = await getPosts();
   callback(null, {
     statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(posts),
   });
 };
