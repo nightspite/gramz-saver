@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpPosts from '../functions/slimUpPosts';
+import slimUpPost from '../functions/slimUpPost';
 import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
@@ -21,14 +21,14 @@ const StyledImage = styled.img`
   background-size: cover;
 `;
 
-function GetPosts({ location }) {
+function GetPost({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [gramz, setGramz] = useState([]);
-  const username = location.pathname.match(/[^/]*$/);
+  const shortcode = location.pathname.match(/[^/]*$/);
 
   useEffect(() => {
-    fetch(`https://instagram.com/${username}/?__a=1`)
+    fetch(`https://instagram.com/p/${shortcode}/?__a=1`)
       .then((res) =>
         res.status !== 200
           ? console.log(
@@ -49,7 +49,7 @@ function GetPosts({ location }) {
           .then(
             (result) => {
               setIsLoaded(true);
-              setGramz(slimUpPosts(result));
+              setGramz(slimUpPost(result));
             },
             (error) => {
               setIsLoaded(true);
@@ -125,10 +125,10 @@ function GetPosts({ location }) {
   );
 }
 
-GetPosts.propTypes = {
+GetPost.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default GetPosts;
+export default GetPost;
