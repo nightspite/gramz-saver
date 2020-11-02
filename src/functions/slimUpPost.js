@@ -1,14 +1,4 @@
-/* eslint-disable no-undef */
-require('isomorphic-fetch');
-
-const url = `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":"953293389","first":50}`;
-
-const cache = {
-  lastFetch: 0,
-  posts: [],
-};
-
-function slimUpPosts(response) {
+const slimUpPost = (response) => {
   return response.data.user.edge_owner_to_timeline_media.edges.map((edge) =>
     edge.node.edge_sidecar_to_children
       ? {
@@ -37,28 +27,6 @@ function slimUpPosts(response) {
           postShortcode: edge.node.shortcode,
         },
   );
-}
-
-async function getPosts() {
-  const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 1800000) {
-    return cache.posts;
-  }
-  const data = await fetch(url).then((res) => res.json());
-  const posts = slimUpPosts(data);
-
-  cache.lastFetch = Date.now();
-  cache.posts = posts;
-  return posts;
-}
-
-exports.handler = async (event, context, callback) => {
-  const posts = await getPosts();
-  callback(null, {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(posts),
-  });
 };
+
+export default slimUpPost;
