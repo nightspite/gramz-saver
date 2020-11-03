@@ -4,11 +4,16 @@ import { Link } from 'react-router-dom';
 import { routes } from '../routes';
 // import styled from 'styled-components';
 
-function FindPost() {
-  const [shortcode, setShortcode] = useState('');
+function Search() {
+  const [url, setUrl] = useState('');
 
   const handleChange = (event) => {
-    setShortcode(event.target.value);
+    setUrl(
+      event.target.value
+        .split('/')
+        .filter((e) => e)
+        .pop(),
+    );
   };
 
   const handleSubmit = (event) => {
@@ -19,23 +24,15 @@ function FindPost() {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="link to a post"
-        value={shortcode}
+        placeholder="username"
+        value={url}
         onChange={handleChange}
       />
-      <Link
-        to={
-          routes.post +
-          shortcode
-            .split('/')
-            .filter((e) => e)
-            .pop()
-        }
-      >
-        find post
-      </Link>
+      <Link to={routes.profile + url}>profile</Link>
+      <Link to={routes.posts + url}>posts</Link>
+      <Link to={routes.post + url}>post</Link>
     </form>
   );
 }
 
-export default FindPost;
+export default Search;

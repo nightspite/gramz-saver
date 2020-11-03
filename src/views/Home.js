@@ -1,12 +1,10 @@
 import React from 'react';
 
-import FindUser from './FindUser';
-import FindPost from './FindPost';
+import Search from './Search';
 
 const Home = () => (
   <div>
-    <FindUser />
-    <FindPost />
+    <Search />
   </div>
 );
 

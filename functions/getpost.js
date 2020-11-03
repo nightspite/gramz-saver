@@ -35,7 +35,7 @@ const slimUpPost = (response) => {
       };
 };
 
-async function getPosts() {
+async function getPost() {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
   if (timeSinceLastFetch <= 1800000) {
     return cache.posts;
@@ -47,7 +47,7 @@ async function getPosts() {
   return posts;
 }
 exports.handler = async (event, context, callback) => {
-  const posts = await getPosts();
+  const posts = await getPost();
   callback(null, {
     statusCode: 200,
     headers: {

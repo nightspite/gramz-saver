@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import slimUpPosts from '../functions/slimUpPosts';
-// import NotFound from './NotFound';
+import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
 
@@ -14,11 +14,9 @@ const StyledPostWrapper = styled.div``;
 const StyledImageWrapper = styled.div`
   display: inline-block;
   width: 300px;
-  height: 350px;
 `;
 const StyledImage = styled.img`
   width: 300px;
-  background-size: cover;
 `;
 
 function GetPosts({ location }) {
@@ -74,9 +72,9 @@ function GetPosts({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  // if (gramz.length === 0) {
-  //   return <NotFound />;
-  // }
+  if (gramz.length === 0) {
+    return <NotFound />;
+  }
   return (
     <StyledWrapper>
       {gramz.map((gram) => (

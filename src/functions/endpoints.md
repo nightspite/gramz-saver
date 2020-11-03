@@ -12,7 +12,7 @@ posts
 https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":"953293389","first":50}
 
 stories
-https://www.instagram.com/graphql/query/?query_hash=c9c56db64beb4c9dea2d17740d0259d9&variables={"reel_ids":["953293389"],"highlight_reel_ids":[],"precomposed_overlay":false}
+https://www.instagram.com/graphql/query/?query_hash=c9c56db64beb4c9dea2d17740d0259d9&variables={"reel_ids":["528817151"],"highlight_reel_ids":[],"precomposed_overlay":false}
 
 highlights ids
 https://www.instagram.com/graphql/query/?query_hash=aec5501414615eca36a9acf075655b1e&variables={"user_id": "953293389","include_highlight_reels": true, "first":50}

@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpStories from '../functions/slimUpStories';
+import slimUpProfile from '../functions/slimUpProfile';
 import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
@@ -19,17 +19,17 @@ const StyledImage = styled.img`
   width: 300px;
 `;
 
-function GetStories({ location }) {
+function GetProfile({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [stories, setStories] = useState([]);
-  const shortcode = location.pathname
+  const [profile, setProfile] = useState([]);
+  const username = location.pathname
     .split('/')
     .filter((e) => e)
     .pop();
 
   useEffect(() => {
-    const url = `https://www.instagram.com/p/${shortcode}/?__a=1`;
+    const url = `https://www.instagram.com/${username}/?__a=1`;
     fetch(url)
       .then((res) =>
         res.status !== 200
@@ -41,7 +41,7 @@ function GetStories({ location }) {
       .then(
         (result) => {
           setIsLoaded(true);
-          setStories(slimUpStories(result));
+          setProfile(slimUpProfile(result));
         },
         (error) => {
           setIsLoaded(true);
@@ -57,46 +57,34 @@ function GetStories({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  if (gramz.length === 0) {
+  if (profile.length === 0) {
     return <NotFound />;
   }
   return (
     <StyledWrapper>
       <StyledPostWrapper>
-        {stories.items.isVideo === true ? (
-          <StyledImageWrapper key={stories.items.storyId}>
-            <a href={stories.items.video}>
-              <StyledImage
-                src={stories.items.thumbnail}
-                alt={stories.items.storyId}
-              />
-            </a>
-            <a
-              href={`https://instagram.com/${stories.username}`}
-            >{`https://instagram.com/${stories.username}`}</a>
-          </StyledImageWrapper>
-        ) : (
-          <StyledImageWrapper key={stories.items.storyId}>
-            <a href={stories.items.image}>
-              <StyledImage
-                src={stories.items.thumbnail}
-                alt={stories.items.storyId}
-              />
-            </a>
-            <a
-              href={`https://instagram.com/${stories.username}`}
-            >{`https://instagram.com/${stories.username}`}</a>
-          </StyledImageWrapper>
-        )}
+        <StyledImageWrapper>
+          <a href={profile.image}>
+            <StyledImage src={profile.thumbnail} alt={profile.postId} />
+          </a>
+          <a
+            href={`https://instagram.com/${profile.username}`}
+          >{`https://instagram.com/${profile.username}`}</a>
+          <p>userid: {profile.userId}</p>
+          <p>username: {profile.username}</p>
+          <p>bio: {profile.bio}</p>
+          <p>following: {profile.following}</p>
+          <p>followers: {profile.followers}</p>
+        </StyledImageWrapper>
       </StyledPostWrapper>
     </StyledWrapper>
   );
 }
 
-GetStories.propTypes = {
+GetProfile.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default GetStories;
+export default GetProfile;

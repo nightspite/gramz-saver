@@ -14,17 +14,15 @@ const StyledPostWrapper = styled.div``;
 const StyledImageWrapper = styled.div`
   display: inline-block;
   width: 300px;
-  height: 350px;
 `;
 const StyledImage = styled.img`
   width: 300px;
-  background-size: cover;
 `;
 
 function GetPost({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [gramz, setgramz] = useState([]);
+  const [gramz, setGramz] = useState([]);
   const shortcode = location.pathname
     .split('/')
     .filter((e) => e)
@@ -43,7 +41,7 @@ function GetPost({ location }) {
       .then(
         (result) => {
           setIsLoaded(true);
-          setgramz(slimUpPost(result));
+          setGramz(slimUpPost(result));
         },
         (error) => {
           setIsLoaded(true);
