@@ -29,30 +29,22 @@ function GetProfile({ location }) {
     .pop();
 
   useEffect(() => {
-    const url = `https://www.instagram.com/${username}/?__a=1`;
-    fetch(url)
-      .then((res) =>
-        res.status !== 200
-          ? console.log(
-              `Looks like there was a problem. Status Code: ${res.status}`,
-            )
-          : res.json(),
-      )
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setProfile(slimUpProfile(result));
-        },
-        (error) => {
-          setIsLoaded(true);
-          setErrors(error);
-          console.log(error);
-        },
+    const fetchData = async () => {
+      const user = await fetch(
+        `https://instagram.com/${username}/?__a=1`,
+      ).then((response) =>
+        response.status !== 200 ? setErrors(response.status) : response.json(),
       );
+
+      setProfile(slimUpProfile(user));
+      setIsLoaded(true);
+    };
+
+    fetchData();
   }, []);
 
   if (errors) {
-    return <div>Error: {errors.message}</div>;
+    return <NotFound />;
   }
   if (!isLoaded) {
     return <div>Loading...</div>;

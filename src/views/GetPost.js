@@ -51,8 +51,23 @@ function GetPost({ location }) {
       );
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const post = await fetch(
+        `https://www.instagram.com/p/${shortcode}/?__a=1`,
+      ).then((response) =>
+        response.status !== 200 ? setErrors(response.status) : response.json(),
+      );
+
+      setGramz(slimUpPost(post));
+      setIsLoaded(true);
+    };
+
+    fetchData();
+  }, []);
+
   if (errors) {
-    return <div>Error: {errors.message}</div>;
+    return <NotFound />;
   }
   if (!isLoaded) {
     return <div>Loading...</div>;
