@@ -25,9 +25,14 @@ async function getProfile(username) {
     return cache.profile;
   }
 
-  const data = await fetch(
-    `https://instagram.com/${username}/?__a=1`,
-  ).then((response) => response.json());
+  const data = await fetch(`https://instagram.com/${username}/?__a=1`, {
+    method: 'GET',
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
+      Accept: 'application/json; charset=UTF-8',
+    },
+  }).then((response) => response.json());
 
   const profile = slimUpProfile(data);
   cache.lastFetch = Date.now();
