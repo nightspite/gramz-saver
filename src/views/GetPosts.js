@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpPosts from '../functions/slimUpPosts';
 import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
@@ -30,21 +29,13 @@ function GetPosts({ location }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await fetch(
-        `https://instagram.com/${username}/?__a=1`,
+      const data = await fetch(
+        `/.netlify/functions/getposts?user=${username}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      const userId = user.graphql.user.id;
-
-      const posts = await fetch(
-        `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":${userId},"first":50}`,
-      ).then((response) =>
-        response.status !== 200 ? setErrors(response.status) : response.json(),
-      );
-
-      setGramz(slimUpPosts(posts));
+      setGramz(data);
       setIsLoaded(true);
     };
 

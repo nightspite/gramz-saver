@@ -1,11 +1,9 @@
 /* eslint-disable no-undef */
 require('isomorphic-fetch');
 
-const url = `https://www.instagram.com/graphql/query/?query_hash=c9c56db64beb4c9dea2d17740d0259d9&variables={"reel_ids":[1823164043],"highlight_reel_ids":[],"precomposed_overlay":false}`;
-
 const cache = {
   lastFetch: 0,
-  posts: [],
+  stories: [],
 };
 
 const slimUpStories = (response) => {
@@ -18,35 +16,45 @@ const slimUpStories = (response) => {
       thumbnail: item.display_resources[0].src,
       isVideo: item.is_video,
       image: item.display_url,
-      video: item.video_resources[item.video_resources.length - 1].src, // problem here
+      video: item.video_resources,
     })),
   };
-  // return response;
 };
 
-async function getStories() {
+async function getStories(username) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 1800000) {
-    return cache.posts;
+  if (timeSinceLastFetch <= 300000) {
+    return cache.stories;
   }
 
-  const data = await fetch(url, {
-    headers: {
-      cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,
+  const user = await fetch(
+    `https://instagram.com/${username}/?__a=1`,
+  ).then((response) => response.json());
+
+  const userId = user.graphql.user.id;
+
+  const data = await fetch(
+    `https://www.instagram.com/graphql/query/?query_hash=c9c56db64beb4c9dea2d17740d0259d9&variables={"reel_ids":[${userId}],"highlight_reel_ids":[],"precomposed_overlay":false}`,
+    {
+      headers: {
+        cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,
+      },
     },
-  }).then((res) => res.json());
-  const posts = slimUpStories(data);
+  ).then((response) => response.json());
+
+  const stories = slimUpStories(data);
   cache.lastFetch = Date.now();
-  cache.posts = posts;
-  return posts;
+  cache.stories = stories;
+  return cache.stories;
 }
+
 exports.handler = async (event, context, callback) => {
-  const posts = await getStories();
+  const stories = await getStories(event.queryStringParameters.user);
   callback(null, {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(posts),
+    body: JSON.stringify(stories),
   });
 };

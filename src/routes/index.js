@@ -5,7 +5,4 @@ export const routes = {
   post: '/post/',
   profile: '/profile/',
   stories: '/stories/',
-
-  user_id: '/userid',
-  finduser: '/finduser',
 };

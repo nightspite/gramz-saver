@@ -1,11 +1,9 @@
 /* eslint-disable no-undef */
 require('isomorphic-fetch');
 
-const url = `https://www.instagram.com/nightspite/?__a=1`;
-
 const cache = {
   lastFetch: 0,
-  posts: [],
+  profile: [],
 };
 
 const slimUpProfile = (response) => {
@@ -21,24 +19,29 @@ const slimUpProfile = (response) => {
   };
 };
 
-async function getPosts() {
+async function getProfile(username) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 1800000) {
-    return cache.posts;
+  if (timeSinceLastFetch <= 300000) {
+    return cache.profile;
   }
-  const data = await fetch(url).then((res) => res.json());
-  const posts = slimUpProfile(data);
+
+  const data = await fetch(
+    `https://instagram.com/${username}/?__a=1`,
+  ).then((response) => response.json());
+
+  const profile = slimUpProfile(data);
   cache.lastFetch = Date.now();
-  cache.posts = posts;
-  return posts;
+  cache.profile = profile;
+  return cache.profile;
 }
+
 exports.handler = async (event, context, callback) => {
-  const posts = await getPosts();
+  const profile = await getProfile(event.queryStringParameters.user);
   callback(null, {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(posts),
+    body: JSON.stringify(profile),
   });
 };

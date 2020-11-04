@@ -1,11 +1,9 @@
 /* eslint-disable no-undef */
 require('isomorphic-fetch');
 
-const url = `https://www.instagram.com/p/CHAZ26ihoyP/?__a=1`;
-
 const cache = {
   lastFetch: 0,
-  posts: [],
+  post: [],
 };
 
 const slimUpPost = (response) => {
@@ -35,24 +33,29 @@ const slimUpPost = (response) => {
       };
 };
 
-async function getPost() {
+async function getPost(shortcode) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 1800000) {
-    return cache.posts;
+  if (timeSinceLastFetch <= 300000) {
+    return cache.post;
   }
-  const data = await fetch(url).then((res) => res.json());
-  const posts = slimUpPost(data);
+
+  const data = await fetch(
+    `https://instagram.com/p/${shortcode}/?__a=1`,
+  ).then((response) => response.json());
+
+  const post = slimUpPost(data);
   cache.lastFetch = Date.now();
-  cache.posts = posts;
-  return posts;
+  cache.post = post;
+  return cache.post;
 }
+
 exports.handler = async (event, context, callback) => {
-  const posts = await getPost();
+  const post = await getPost(event.queryStringParameters.shortcode);
   callback(null, {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(posts),
+    body: JSON.stringify(post),
   });
 };

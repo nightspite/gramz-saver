@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpPost from '../functions/slimUpPost';
 import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
@@ -29,37 +28,14 @@ function GetPost({ location }) {
     .pop();
 
   useEffect(() => {
-    const url = `https://www.instagram.com/p/${shortcode}/?__a=1`;
-    fetch(url)
-      .then((res) =>
-        res.status !== 200
-          ? console.log(
-              `Looks like there was a problem. Status Code: ${res.status}`,
-            )
-          : res.json(),
-      )
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setGramz(slimUpPost(result));
-        },
-        (error) => {
-          setIsLoaded(true);
-          setErrors(error);
-          console.log(error);
-        },
-      );
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
-      const post = await fetch(
-        `https://www.instagram.com/p/${shortcode}/?__a=1`,
+      const data = await fetch(
+        `/.netlify/functions/getpost?shortcode=${shortcode}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      setGramz(slimUpPost(post));
+      setGramz(data);
       setIsLoaded(true);
     };
 
@@ -72,9 +48,11 @@ function GetPost({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
   if (gramz.length === 0) {
     return <NotFound />;
   }
+
   return (
     <StyledWrapper>
       <StyledPostWrapper key={gramz.postId}>

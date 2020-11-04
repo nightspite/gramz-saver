@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpProfile from '../functions/slimUpProfile';
 import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
@@ -30,13 +29,13 @@ function GetProfile({ location }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await fetch(
-        `https://instagram.com/${username}/?__a=1`,
+      const data = await fetch(
+        `/.netlify/functions/getprofile?user=${username}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      setProfile(slimUpProfile(user));
+      setProfile(data);
       setIsLoaded(true);
     };
 
@@ -49,6 +48,7 @@ function GetProfile({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
   if (profile.length === 0) {
     return <NotFound />;
   }

@@ -1,8 +1,12 @@
 /* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { routes } from '../routes';
-// import styled from 'styled-components';
+
+const StyledLink = styled(Link)`
+  padding: 0 10px;
+`;
 
 function Search() {
   const [url, setUrl] = useState('');
@@ -28,10 +32,10 @@ function Search() {
         value={url}
         onChange={handleChange}
       />
-      <Link to={routes.profile + url}>profile</Link>
-      <Link to={routes.posts + url}>posts</Link>
-      <Link to={routes.post + url}>post</Link>
-      <Link to={routes.stories + url}>stories</Link>
+      <StyledLink to={routes.profile + url}>profile</StyledLink>
+      <StyledLink to={routes.posts + url}>posts</StyledLink>
+      <StyledLink to={routes.post + url}>post</StyledLink>
+      <StyledLink to={routes.stories + url}>stories</StyledLink>
     </form>
   );
 }
