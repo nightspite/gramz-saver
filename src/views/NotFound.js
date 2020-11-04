@@ -4,7 +4,7 @@ import { routes } from '../routes';
 
 const NotFound = () => (
   <div>
-    <h1>404 - Not Found!</h1>
+    <h1>There was an error!</h1>
     <Link to={routes.home}>Go Home</Link>
   </div>
 );

@@ -29,52 +29,39 @@ function GetPosts({ location }) {
     .pop();
 
   useEffect(() => {
-    fetch(`https://instagram.com/${username}/?__a=1`)
-      .then((res) =>
-        res.status !== 200
-          ? console.log(
-              `Looks like there was a problem. Status Code: ${res.status}`,
-            )
-          : res.json(),
-      )
-      .then((data) => {
-        const url = `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":${data.graphql.user.id},"first":50}`;
-        fetch(url)
-          .then((res) =>
-            res.status !== 200
-              ? console.log(
-                  `Looks like there was a problem. Status Code: ${res.status}`,
-                )
-              : res.json(),
-          )
-          .then(
-            (result) => {
-              setIsLoaded(true);
-              setGramz(slimUpPosts(result));
-            },
-            (error) => {
-              setIsLoaded(true);
-              setErrors(error);
-              console.log(error);
-            },
-          );
-      })
-      .then((error) => {
-        setIsLoaded(true);
-        setErrors(error);
-        console.log(error);
-      });
+    const fetchData = async () => {
+      const user = await fetch(
+        `https://instagram.com/${username}/?__a=1`,
+      ).then((response) =>
+        response.status !== 200 ? setErrors(response.status) : response.json(),
+      );
+
+      const userId = user.graphql.user.id;
+
+      const posts = await fetch(
+        `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":${userId},"first":50}`,
+      ).then((response) =>
+        response.status !== 200 ? setErrors(response.status) : response.json(),
+      );
+
+      setGramz(slimUpPosts(posts));
+      setIsLoaded(true);
+    };
+
+    fetchData();
   }, []);
 
   if (errors) {
-    return <div>Error: {errors.message}</div>;
+    return <NotFound />;
   }
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
   if (gramz.length === 0) {
     return <NotFound />;
   }
+
   return (
     <StyledWrapper>
       {gramz.map((gram) => (

@@ -24,13 +24,14 @@ function Search() {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="username"
+        placeholder="username or link"
         value={url}
         onChange={handleChange}
       />
       <Link to={routes.profile + url}>profile</Link>
       <Link to={routes.posts + url}>posts</Link>
       <Link to={routes.post + url}>post</Link>
+      <Link to={routes.stories + url}>stories</Link>
     </form>
   );
 }

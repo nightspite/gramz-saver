@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import slimUpStories from '../functions/slimUpStories';
-import NotFound from './NotFound';
+// import NotFound from './NotFound';
 
 const StyledWrapper = styled.div``;
 
@@ -23,14 +23,13 @@ function GetStories({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [stories, setStories] = useState([]);
-  const shortcode = location.pathname
+  const username = location.pathname
     .split('/')
     .filter((e) => e)
     .pop();
 
   useEffect(() => {
-    const url = `https://www.instagram.com/p/${shortcode}/?__a=1`;
-    fetch(url)
+    fetch(`https://instagram.com/${username}/?__a=1`)
       .then((res) =>
         res.status !== 200
           ? console.log(
@@ -38,17 +37,33 @@ function GetStories({ location }) {
             )
           : res.json(),
       )
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setStories(slimUpStories(result));
-        },
-        (error) => {
-          setIsLoaded(true);
-          setErrors(error);
-          console.log(error);
-        },
-      );
+      .then((data) => {
+        const url = `/.netlify/functions/getstories/${data.graphql.user.id}`;
+        fetch(url)
+          .then((res) =>
+            res.status !== 200
+              ? console.log(
+                  `Looks like there was a problem. Status Code: ${res.status}`,
+                )
+              : res.json(),
+          )
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              setStories(slimUpStories(result));
+            },
+            (error) => {
+              setIsLoaded(true);
+              setErrors(error);
+              console.log(error);
+            },
+          );
+      })
+      .then((error) => {
+        setIsLoaded(true);
+        setErrors(error);
+        console.log(error);
+      });
   }, []);
 
   if (errors) {
@@ -57,9 +72,9 @@ function GetStories({ location }) {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  if (gramz.length === 0) {
-    return <NotFound />;
-  }
+  // if (gramz.length === 0) {
+  //   return <NotFound />;
+  // }
   return (
     <StyledWrapper>
       <StyledPostWrapper>
@@ -89,6 +104,7 @@ function GetStories({ location }) {
           </StyledImageWrapper>
         )}
       </StyledPostWrapper>
+      {/* {stories} */}
     </StyledWrapper>
   );
 }
