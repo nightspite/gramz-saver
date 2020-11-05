@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import NotFound from './NotFound';
+import slimUpProfile from '../functions/slimUpProfile';
 
 const StyledWrapper = styled.div``;
 
@@ -30,12 +31,12 @@ function GetProfile({ location }) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        `/.netlify/functions/getprofile?user=${username}`,
+        `https://instagram.com/${username}/?__a=1`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      setProfile(data);
+      setProfile(slimUpProfile(data));
       setIsLoaded(true);
     };
 

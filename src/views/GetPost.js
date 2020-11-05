@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import NotFound from './NotFound';
+import slimUpPost from '../functions/slimUpPost';
 
 const StyledWrapper = styled.div``;
 
@@ -30,12 +31,12 @@ function GetPost({ location }) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        `/.netlify/functions/getpost?shortcode=${shortcode}`,
+        `https://instagram.com/p/${shortcode}/?__a=1`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      setGramz(data);
+      setGramz(slimUpPost(data));
       setIsLoaded(true);
     };
 
