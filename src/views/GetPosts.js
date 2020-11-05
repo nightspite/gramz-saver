@@ -29,8 +29,16 @@ function GetPosts({ location }) {
 
   useEffect(() => {
     const fetchData = async () => {
+      const user = await fetch(
+        `https://instagram.com/${username}/?__a=1`,
+      ).then((response) =>
+        response.status !== 200 ? setErrors(response.status) : response.json(),
+      );
+
+      const userId = user.graphql.user.id;
+
       const data = await fetch(
-        `/.netlify/functions/getposts?user=${username}`,
+        `/.netlify/functions/getposts?user=${userId}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
