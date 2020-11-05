@@ -4,6 +4,7 @@ require('isomorphic-fetch');
 const cache = {
   lastFetch: 0,
   posts: [],
+  id: '',
 };
 
 const slimUpPosts = (response) => {
@@ -39,7 +40,7 @@ const slimUpPosts = (response) => {
 
 async function getPosts(userId) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 300000) {
+  if (timeSinceLastFetch <= 300000 && userId === cache.id) {
     return cache.posts;
   }
 
