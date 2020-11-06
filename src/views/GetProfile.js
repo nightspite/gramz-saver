@@ -4,19 +4,27 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import NotFound from './NotFound';
-import slimUpProfile from '../functions/slimUpProfile';
+import slimUpProfile from 'functions/slimUpProfile';
+import NotFound from 'components/NotFound';
+import ProfileImage from 'components/molecules/ProfileImage';
+import ProfileSummary from 'components/molecules/ProfileSummary';
+import FollowButton from 'components/molecules/FollowButton';
+import ProfileInfo from 'components/molecules/ProfileInfo';
+import ProfileHighlights from 'components/molecules/ProfileHighlights';
+import GetPosts from 'views/GetPosts';
 
 const StyledWrapper = styled.div``;
 
-const StyledPostWrapper = styled.div``;
-
-const StyledImageWrapper = styled.div`
-  display: inline-block;
-  width: 300px;
+const StyledPostWrapper = styled.div`
+  display: flex;
 `;
-const StyledImage = styled.img`
-  width: 300px;
+
+const StyledProfileSidebar = styled.div`
+  margin-top: 50px;
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function GetProfile({ location }) {
@@ -56,19 +64,33 @@ function GetProfile({ location }) {
   return (
     <StyledWrapper>
       <StyledPostWrapper>
-        <StyledImageWrapper>
-          <a href={profile.image}>
-            <StyledImage src={profile.thumbnail} alt={profile.postId} />
-          </a>
-          <a
-            href={`https://instagram.com/${profile.username}`}
-          >{`https://instagram.com/${profile.username}`}</a>
-          <p>userid: {profile.userId}</p>
-          <p>username: {profile.username}</p>
-          <p>bio: {profile.bio}</p>
-          <p>following: {profile.following}</p>
-          <p>followers: {profile.followers}</p>
-        </StyledImageWrapper>
+        <StyledProfileSidebar>
+          <ProfileImage image={profile.thumbnail} alt={profile.userId} />
+
+          <ProfileSummary
+            posts={profile.numberOfPosts}
+            followers={profile.followers}
+            following={profile.following}
+          />
+
+          <FollowButton username={profile.username} />
+
+          <ProfileInfo
+            fullName={profile.fullName}
+            bio={profile.bio}
+            externalUrl={profile.externalUrl}
+          />
+
+          {profile.highlights > 0 && (
+            <ProfileHighlights image={profile.thumbnail} alt={profile.userId} />
+          )}
+
+          {/* <p>username: {profile.username}</p> */}
+          {/* <p>userid: {profile.userId}</p> */}
+          {/* <GetPosts userId={profile.userId}/> */}
+        </StyledProfileSidebar>
+
+        <GetPosts userId={profile.userId} />
       </StyledPostWrapper>
     </StyledWrapper>
   );
