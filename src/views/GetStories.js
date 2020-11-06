@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import NotFound from './NotFound';
+import NotFound from '../components/NotFound';
 
 const StyledWrapper = styled.div``;
 
