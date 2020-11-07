@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import MainTemplate from 'templates/MainTemplate';
-import { routes } from '../routes';
-import Home from './Home';
-import GetPosts from './GetPosts';
-import GetPost from './GetPost';
-import GetProfile from './GetProfile';
-import GetStories from './GetStories';
-import NotFound from '../components/NotFound';
+import { routes } from 'routes';
+import Home from 'views/Home';
+import GetPosts from 'views/GetPosts';
+import GetPost from 'views/GetPost';
+import GetProfile from 'views/GetProfile';
+import GetStories from 'views/GetStories';
+import NotFound from 'components/NotFound';
 
 function App() {
   return (

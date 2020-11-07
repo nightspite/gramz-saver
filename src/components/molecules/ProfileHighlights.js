@@ -45,25 +45,25 @@ const ProfileHightlights = ({ image, alt }) => (
       <StyledHightlightImageWrapper>
         <StyledHighlightImage src={image} alt={alt} />
       </StyledHightlightImageWrapper>
-      <StyledHighlightTitle>ebe</StyledHighlightTitle>
+      <StyledHighlightTitle>value</StyledHighlightTitle>
     </StyledHighlight>
     <StyledHighlight>
       <StyledHightlightImageWrapper>
         <StyledHighlightImage src={image} alt={alt} />
       </StyledHightlightImageWrapper>
-      <StyledHighlightTitle>ebe</StyledHighlightTitle>
+      <StyledHighlightTitle>value</StyledHighlightTitle>
     </StyledHighlight>
     <StyledHighlight>
       <StyledHightlightImageWrapper>
         <StyledHighlightImage src={image} alt={alt} />
       </StyledHightlightImageWrapper>
-      <StyledHighlightTitle>ebe</StyledHighlightTitle>
+      <StyledHighlightTitle>value</StyledHighlightTitle>
     </StyledHighlight>
     <StyledHighlight>
       <StyledHightlightImageWrapper>
         <StyledHighlightImage src={image} alt={alt} />
       </StyledHightlightImageWrapper>
-      <StyledHighlightTitle>ebe</StyledHighlightTitle>
+      <StyledHighlightTitle>value</StyledHighlightTitle>
     </StyledHighlight>
   </StyledHighlightsWrapper>
 );

@@ -4,8 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import NotFound from '../components/NotFound';
-import slimUpPost from '../functions/slimUpPost';
+import NotFound from 'components/NotFound';
+import slimUpPost from 'functions/slimUpPost';
 
 const StyledWrapper = styled.div``;
 
