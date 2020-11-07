@@ -6,25 +6,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import slimUpProfile from 'functions/slimUpProfile';
 import NotFound from 'components/NotFound';
-import ProfileImage from 'components/molecules/ProfileImage';
-import ProfileSummary from 'components/molecules/ProfileSummary';
-import FollowButton from 'components/molecules/FollowButton';
-import ProfileInfo from 'components/molecules/ProfileInfo';
-import ProfileHighlights from 'components/molecules/ProfileHighlights';
+import ProfileSidebar from 'components/organisms/ProfileSidebar';
 import GetPosts from 'views/GetPosts';
-
-const StyledWrapper = styled.div``;
+import Loading from 'components/molecules/Loading';
+import Navbar from 'components/organisms/Navbar';
 
 const StyledPostWrapper = styled.div`
   display: flex;
-`;
-
-const StyledProfileSidebar = styled.div`
-  margin-top: 50px;
-  width: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 function GetProfile({ location }) {
@@ -55,44 +43,21 @@ function GetProfile({ location }) {
     return <NotFound />;
   }
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (profile.length === 0) {
     return <NotFound />;
   }
   return (
-    <StyledWrapper>
+    <div>
+      <Navbar />
       <StyledPostWrapper>
-        <StyledProfileSidebar>
-          <ProfileImage image={profile.thumbnail} alt={profile.userId} />
-
-          <ProfileSummary
-            posts={profile.numberOfPosts}
-            followers={profile.followers}
-            following={profile.following}
-          />
-
-          <FollowButton username={profile.username} />
-
-          <ProfileInfo
-            fullName={profile.fullName}
-            bio={profile.bio}
-            externalUrl={profile.externalUrl}
-          />
-
-          {profile.highlights > 0 && (
-            <ProfileHighlights image={profile.thumbnail} alt={profile.userId} />
-          )}
-
-          {/* <p>username: {profile.username}</p> */}
-          {/* <p>userid: {profile.userId}</p> */}
-          {/* <GetPosts userId={profile.userId}/> */}
-        </StyledProfileSidebar>
+        <ProfileSidebar profile={profile} />
 
         <GetPosts userId={profile.userId} />
       </StyledPostWrapper>
-    </StyledWrapper>
+    </div>
   );
 }
 

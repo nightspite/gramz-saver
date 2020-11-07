@@ -45,9 +45,9 @@ const ProfileSummary = ({ posts, followers, following }) => (
 );
 
 ProfileSummary.propTypes = {
-  posts: PropTypes.string.isRequired,
-  followers: PropTypes.string.isRequired,
-  following: PropTypes.string.isRequired,
+  posts: PropTypes.number.isRequired,
+  followers: PropTypes.number.isRequired,
+  following: PropTypes.number.isRequired,
 };
 
 export default ProfileSummary;

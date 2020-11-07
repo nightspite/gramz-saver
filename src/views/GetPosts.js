@@ -2,27 +2,27 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import NotFound from '../components/NotFound';
+import { routes } from 'routes';
+import NotFound from 'components/NotFound';
+import Loading from 'components/molecules/Loading';
 
 const StyledWrapper = styled.div`
-  width: calc(100vw - 420px);
+  margin-left: 470px;
+  margin-top: 170px;
+  /* margin-top: 50px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const StyledPostWrapper = styled.div`
-  margin-top: 50px;
-`;
-
 const StyledImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  /* width: 300px; */
+  margin-bottom: 25px;
+  margin-right: 25px;
 `;
 const StyledImage = styled.img`
-  width: 300px;
+  width: 400px;
 `;
 
 function GetPosts({ userId }) {
@@ -49,7 +49,7 @@ function GetPosts({ userId }) {
     return <NotFound />;
   }
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (gramz.length === 0) {
@@ -59,47 +59,11 @@ function GetPosts({ userId }) {
   return (
     <StyledWrapper>
       {gramz.map((gram) => (
-        <StyledPostWrapper key={gram.postId}>
-          {
-            // gram.sideImages ? (
-            //   gram.sideImages.map((image, key) =>
-            //     image.isVideo === true ? (
-            //       <StyledImageWrapper key={gram.postId + key.toString()}>
-            //         <a href={image.video}>
-            //           <StyledImage src={image.thumbnail} alt={gram.postId} />
-            //         </a>
-            //         <a
-            //           href={`https://instagram.com/p/${gram.postShortcode}`}
-            //         >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-            //       </StyledImageWrapper>
-            //     ) : (
-            //       <StyledImageWrapper key={gram.postId + key.toString()}>
-            //         <a href={image.image}>
-            //           <StyledImage src={image.thumbnail} alt={gram.postId} />
-            //         </a>
-            //         <a
-            //           href={`https://instagram.com/p/${gram.postShortcode}`}
-            //         >{`https://instagram.com/p/${gram.postShortcode}`}</a>
-            //       </StyledImageWrapper>
-            //     ),
-            //   )
-            // ) :
-
-            gram.isVideo === true ? (
-              <StyledImageWrapper key={gram.postId}>
-                <a href={gram.video}>
-                  <StyledImage src={gram.thumbnail} alt={gram.postId} />
-                </a>
-              </StyledImageWrapper>
-            ) : (
-              <StyledImageWrapper key={gram.postId}>
-                <a href={gram.image}>
-                  <StyledImage src={gram.thumbnail} alt={gram.postId} />
-                </a>
-              </StyledImageWrapper>
-            )
-          }
-        </StyledPostWrapper>
+        <StyledImageWrapper key={gram.postId}>
+          <Link to={routes.post + gram.postShortcode}>
+            <StyledImage src={gram.thumbnail} alt={gram.postShortcode} />
+          </Link>
+        </StyledImageWrapper>
       ))}
     </StyledWrapper>
   );
