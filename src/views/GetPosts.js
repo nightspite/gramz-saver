@@ -11,8 +11,6 @@ import Loading from 'components/molecules/Loading';
 
 const StyledWrapper = styled.div`
   margin-left: 470px;
-  margin-top: 170px;
-  /* margin-top: 50px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;

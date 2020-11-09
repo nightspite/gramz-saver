@@ -9,8 +9,6 @@ import ProfileHighlights from 'components/molecules/ProfileHighlights';
 
 const StyledProfileSidebar = styled.div`
   position: fixed;
-  margin-top: 170px;
-  /* margin-top: 50px; */
   width: 420px;
   display: flex;
   flex-direction: column;
