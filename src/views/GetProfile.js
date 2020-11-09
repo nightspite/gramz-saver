@@ -9,7 +9,7 @@ import NotFound from 'components/NotFound';
 import ProfileSidebar from 'components/organisms/ProfileSidebar';
 import GetPosts from 'views/GetPosts';
 import Loading from 'components/molecules/Loading';
-import Navbar from 'components/organisms/Navbar';
+import NavbarTemplate from 'templates/NavbarTemplate';
 
 const StyledPostWrapper = styled.div`
   display: flex;
@@ -50,14 +50,13 @@ function GetProfile({ location }) {
     return <NotFound />;
   }
   return (
-    <div>
-      <Navbar />
+    <NavbarTemplate>
       <StyledPostWrapper>
         <ProfileSidebar profile={profile} />
 
         <GetPosts userId={profile.userId} />
       </StyledPostWrapper>
-    </div>
+    </NavbarTemplate>
   );
 }
 

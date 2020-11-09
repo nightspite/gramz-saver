@@ -7,6 +7,8 @@ import Instagram from 'assets/instagram.svg';
 
 const StyledNavbar = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
   background-color: white;
   width: 100vw;
   height: 120px;
