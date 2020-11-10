@@ -17,7 +17,7 @@ const StyledProfileSidebar = styled.div`
 
 const ProfileSidebar = ({ profile }) => (
   <StyledProfileSidebar>
-    <ProfileImage image={profile.thumbnail} alt={profile.userId} />
+    <ProfileImage image={profile.thumbnail} user={profile.userId} />
 
     <ProfileSummary
       posts={profile.numberOfPosts}

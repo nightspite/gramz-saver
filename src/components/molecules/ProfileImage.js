@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { routes } from 'routes';
+import { Link } from 'react-router-dom';
 
 const StyledStory = styled.div`
   width: 100px;
@@ -35,20 +37,22 @@ const StorySvg = styled.svg`
   }
 `;
 
-const ProfileImage = ({ image, alt }) => (
+const ProfileImage = ({ image, user }) => (
   <StyledStory>
     {/* <a href={profile.image}> */}
-    <StorySvg viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="45" />
-    </StorySvg>
-    <StoryImage src={image} alt={alt} />
+    <Link to={routes.stories + user}>
+      <StorySvg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" />
+      </StorySvg>
+      <StoryImage src={image} alt={user} />
+    </Link>
     {/* </a> */}
   </StyledStory>
 );
 
 ProfileImage.propTypes = {
   image: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default ProfileImage;

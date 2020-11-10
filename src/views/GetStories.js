@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import NotFound from 'components/NotFound';
+import Loading from 'components/molecules/Loading';
 
 const StyledWrapper = styled.div``;
 
@@ -22,21 +23,13 @@ function GetStories({ location }) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [stories, setStories] = useState([]);
-  const username = location.pathname
+  const userId = location.pathname
     .split('/')
     .filter((e) => e)
     .pop();
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await fetch(
-        `https://instagram.com/${username}/?__a=1`,
-      ).then((response) =>
-        response.status !== 200 ? setErrors(response.status) : response.json(),
-      );
-
-      const userId = user.graphql.user.id;
-
       const data = await fetch(
         `/.netlify/functions/getstories?user=${userId}`,
       ).then((response) =>
@@ -54,7 +47,7 @@ function GetStories({ location }) {
     return <NotFound />;
   }
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (stories.length === 0) {
@@ -67,7 +60,7 @@ function GetStories({ location }) {
         {stories.items.map((story) =>
           story.isVideo === true ? (
             <StyledImageWrapper key={story.storyId}>
-              <a href={story.video.pop().src}>
+              <a href={story.video}>
                 <StyledImage src={story.thumbnail} alt={story.storyId} />
               </a>
             </StyledImageWrapper>
