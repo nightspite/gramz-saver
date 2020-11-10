@@ -2,20 +2,12 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import NotFound from 'components/NotFound';
 import slimUpPost from 'functions/slimUpPost';
 import Loading from 'components/molecules/Loading';
 import NavbarTemplate from 'templates/NavbarTemplate';
-
-const StyledImageWrapper = styled.div`
-  display: inline-block;
-  /* width: 300px; */
-`;
-const StyledImage = styled.img`
-  height: 300px;
-`;
+import Slider from 'components/slider/Slider';
 
 function GetPost({ location }) {
   const [errors, setErrors] = useState(null);
@@ -45,11 +37,7 @@ function GetPost({ location }) {
     return <NotFound />;
   }
   if (!isLoaded) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (gramz.length === 0) {
@@ -58,40 +46,7 @@ function GetPost({ location }) {
 
   return (
     <NavbarTemplate>
-      <div>
-        {gramz.sideImages ? (
-          gramz.sideImages.map((image, key) =>
-            image.isVideo === true ? (
-              <StyledImageWrapper key={gramz.postId + key.toString()}>
-                <a href={image.video}>
-                  <StyledImage src={image.thumbnail} alt={gramz.postId} />
-                </a>
-              </StyledImageWrapper>
-            ) : (
-              <StyledImageWrapper key={gramz.postId + key.toString()}>
-                <a href={image.image}>
-                  <StyledImage src={image.thumbnail} alt={gramz.postId} />
-                </a>
-              </StyledImageWrapper>
-            ),
-          )
-        ) : gramz.isVideo === true ? (
-          <StyledImageWrapper key={gramz.postId}>
-            <a href={gramz.video}>
-              <StyledImage src={gramz.thumbnail} alt={gramz.postId} />
-            </a>
-          </StyledImageWrapper>
-        ) : (
-          <StyledImageWrapper key={gramz.postId}>
-            <a href={gramz.image}>
-              <StyledImage src={gramz.thumbnail} alt={gramz.postId} />
-            </a>
-          </StyledImageWrapper>
-        )}
-        {/* <a
-href={`https://instagram.com/p/${gramz.postShortcode}`}
->{`https://instagram.com/p/${gramz.postShortcode}`}</a> */}
-      </div>
+      <Slider gramz={gramz} />
     </NavbarTemplate>
   );
 }

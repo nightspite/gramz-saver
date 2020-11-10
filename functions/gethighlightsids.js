@@ -9,24 +9,11 @@ const cache = {
 
 const slimUpStories = (response) => {
   return {
-    userId: response.data.reels_media[0].user.id,
-    profilePic: response.data.reels_media[0].user.profile_pic_url,
-    username: response.data.reels_media[0].user.username,
-    items: response.data.reels_media[0].items.map((item) =>
-      item.is_video
-        ? {
-            storyId: item.id,
-            thumbnail: item.display_resources[0].src,
-            isVideo: item.is_video,
-            video: item.video_resources[0].src,
-          }
-        : {
-            storyId: item.id,
-            thumbnail: item.display_resources[0].src,
-            isVideo: item.is_video,
-            image: item.display_url,
-          },
-    ),
+    highlights: response.data.user.edge_highlight_reels.edges.map((edge) => ({
+      hightlightId: edge.node.id,
+      thumbnail: edge.node.cover_media_cropped_thumbnail.url,
+      title: edge.node.title,
+    })),
   };
 };
 
@@ -37,7 +24,7 @@ async function getStories(userId) {
   }
 
   const data = await fetch(
-    `https://www.instagram.com/graphql/query/?query_hash=c9c56db64beb4c9dea2d17740d0259d9&variables={"reel_ids":[${userId}],"highlight_reel_ids":[],"precomposed_overlay":false}`,
+    `https://www.instagram.com/graphql/query/?query_hash=aec5501414615eca36a9acf075655b1e&variables={"user_id": "953293389","include_highlight_reels": true, "first":50}`,
     {
       headers: {
         cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,

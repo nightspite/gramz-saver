@@ -8,6 +8,8 @@ const slimUpPost = (response) => {
         sideImages: response.graphql.shortcode_media.edge_sidecar_to_children.edges.map(
           (edge) => ({
             thumbnail: edge.node.display_resources[0].src,
+            width: edge.node.display_resources[0].config_width,
+            height: edge.node.display_resources[0].config_height,
             isVideo: edge.node.is_video,
             video: edge.node.video_url,
             image: edge.node.display_url,
@@ -16,6 +18,10 @@ const slimUpPost = (response) => {
       }
     : {
         thumbnail: response.graphql.shortcode_media.display_resources[0].src,
+        width:
+          response.graphql.shortcode_media.display_resources[0].config_width,
+        height:
+          response.graphql.shortcode_media.display_resources[0].config_height,
         isVideo: response.graphql.shortcode_media.is_video,
         video: response.graphql.shortcode_media.video_url,
         image: response.graphql.shortcode_media.display_url,
