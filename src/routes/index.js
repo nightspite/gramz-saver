@@ -5,4 +5,5 @@ export const routes = {
   post: '/post/',
   profile: '/profile/',
   stories: '/stories/',
+  highlights: '/highlights/',
 };
