@@ -7,6 +7,7 @@ import Home from 'views/Home';
 import GetPost from 'views/GetPost';
 import GetProfile from 'views/GetProfile';
 import GetStories from 'views/GetStories';
+import GetHighlights from 'views/GetHighlights';
 import NotFound from 'components/NotFound';
 
 function App() {
@@ -35,6 +36,11 @@ function App() {
             <Redirect to="/" />
           </Route>
           <Route path={routes.stories} component={GetStories} />
+
+          <Route exact path={routes.highlights}>
+            <Redirect to="/" />
+          </Route>
+          <Route path={routes.highlights} component={GetHighlights} />
 
           <Route component={NotFound} />
         </Switch>

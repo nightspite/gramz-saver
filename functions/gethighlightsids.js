@@ -3,13 +3,13 @@ require('isomorphic-fetch');
 
 const cache = {
   lastFetch: 0,
-  stories: [],
+  highlights: [],
   id: '',
 };
 
-const slimUpStories = (response) => {
+const slimUpHighlightsIds = (response) => {
   return {
-    highlights: response.data.user.edge_highlight_reels.edges.map((edge) => ({
+    items: response.data.user.edge_highlight_reels.edges.map((edge) => ({
       hightlightId: edge.node.id,
       thumbnail: edge.node.cover_media_cropped_thumbnail.url,
       title: edge.node.title,
@@ -17,34 +17,32 @@ const slimUpStories = (response) => {
   };
 };
 
-async function getStories(userId) {
+async function getHighlightsIds(userId, number) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
   if (timeSinceLastFetch <= 300000 && userId === cache.id) {
-    return cache.stories;
+    return cache.hightlights;
   }
 
   const data = await fetch(
-    `https://www.instagram.com/graphql/query/?query_hash=aec5501414615eca36a9acf075655b1e&variables={"user_id": "953293389","include_highlight_reels": true, "first":50}`,
-    {
-      headers: {
-        cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,
-      },
-    },
+    `https://www.instagram.com/graphql/query/?query_hash=aec5501414615eca36a9acf075655b1e&variables={"user_id": ${userId},"include_highlight_reels": true, "first":${number}}`,
   ).then((response) => response.json());
 
-  const stories = slimUpStories(data);
+  const highlights = slimUpHighlightsIds(data);
   cache.lastFetch = Date.now();
-  cache.stories = stories;
-  return cache.stories;
+  cache.highlights = highlights;
+  return cache.highlights;
 }
 
 exports.handler = async (event, context, callback) => {
-  const stories = await getStories(event.queryStringParameters.user);
+  const highlights = await getHighlightsIds(
+    event.queryStringParameters.user,
+    event.queryStringParameters.number,
+  );
   callback(null, {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(stories),
+    body: JSON.stringify(highlights),
   });
 };

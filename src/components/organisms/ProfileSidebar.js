@@ -34,7 +34,7 @@ const ProfileSidebar = ({ profile }) => (
     />
 
     {profile.highlights > 0 && (
-      <ProfileHighlights image={profile.thumbnail} alt={profile.userId} />
+      <ProfileHighlights userId={profile.userId} number={profile.highlights} />
     )}
 
     {/* <p>username: {profile.username}</p> */}
