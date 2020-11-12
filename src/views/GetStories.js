@@ -6,15 +6,23 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import NotFound from 'components/NotFound';
 import Loading from 'components/molecules/Loading';
+import NavbarTemplate from 'templates/NavbarTemplate';
 
 const StyledWrapper = styled.div``;
 
-const StyledPostWrapper = styled.div``;
+const StyledPostWrapper = styled.div`
+  margin-left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
 
 const StyledImageWrapper = styled.div`
   display: inline-block;
   width: 300px;
+  margin-top: 15px;
 `;
+
 const StyledImage = styled.img`
   width: 300px;
 `;
@@ -55,29 +63,31 @@ function GetStories({ location }) {
   }
 
   return (
-    <StyledWrapper>
-      <StyledPostWrapper>
-        {stories.items.map((story) =>
-          story.isVideo === true ? (
-            <StyledImageWrapper key={story.storyId}>
-              <a href={story.video}>
-                <StyledImage src={story.thumbnail} alt={story.storyId} />
-              </a>
-            </StyledImageWrapper>
-          ) : (
-            <StyledImageWrapper key={story.storyId}>
-              <a href={story.image}>
-                <StyledImage src={story.thumbnail} alt={story.storyId} />
-              </a>
-            </StyledImageWrapper>
-          ),
-        )}
+    <NavbarTemplate>
+      <StyledWrapper>
+        <StyledPostWrapper>
+          {stories.items.map((story) =>
+            story.isVideo === true ? (
+              <StyledImageWrapper key={story.storyId}>
+                <a href={story.video}>
+                  <StyledImage src={story.thumbnail} alt={story.storyId} />
+                </a>
+              </StyledImageWrapper>
+            ) : (
+              <StyledImageWrapper key={story.storyId}>
+                <a href={story.image}>
+                  <StyledImage src={story.thumbnail} alt={story.storyId} />
+                </a>
+              </StyledImageWrapper>
+            ),
+          )}
 
-        <a
-          href={`https://instagram.com/${stories.username}`}
-        >{`https://instagram.com/${stories.username}`}</a>
-      </StyledPostWrapper>
-    </StyledWrapper>
+          {/* <a
+            href={`https://instagram.com/${stories.username}`}
+          >{`https://instagram.com/${stories.username}`}</a> */}
+        </StyledPostWrapper>
+      </StyledWrapper>
+    </NavbarTemplate>
   );
 }
 

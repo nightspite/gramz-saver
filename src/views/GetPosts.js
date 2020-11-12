@@ -44,14 +44,14 @@ function GetPosts({ userId }) {
   }, []);
 
   if (errors) {
-    return <NotFound />;
+    return <NotFound marginLeft="420px" />;
   }
   if (!isLoaded) {
     return <Loading />;
   }
 
   if (gramz.length === 0) {
-    return <NotFound />;
+    return <NotFound marginLeft="420px" />;
   }
 
   return (
