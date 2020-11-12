@@ -34,8 +34,6 @@ function Search() {
       />
       <StyledLink to={routes.profile + url}>profile</StyledLink>
       <StyledLink to={routes.post + url}>post</StyledLink>
-      {/* <StyledLink to={routes.posts + url}>posts</StyledLink>
-      <StyledLink to={routes.stories + url}>stories</StyledLink> */}
     </form>
   );
 }
