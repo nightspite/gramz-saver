@@ -22,10 +22,12 @@ const imageWrapper = {
 };
 
 const StyledImageLinks = styled.div`
+  margin-top: -39px;
   display: flex;
-  border: 2px solid #000;
+  /* border: 2px solid #fff;
   border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 10px; */
+  background-color: rgba(255, 255, 255, 0.9);
 `;
 
 const StyledLink = styled.a`
@@ -35,10 +37,9 @@ const StyledLink = styled.a`
   text-decoration: none;
   color: #000;
   font-weight: 600;
-
-  &:last-child {
-    border-left: 2px solid #000;
-  }
+  /* &:last-child {
+    border-left: 2px solid #fff;
+  } */
 `;
 
 const Slider = ({ gramz }) => {
