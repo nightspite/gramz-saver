@@ -17,6 +17,7 @@ const StyledNavbar = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
+  z-index: 1;
 `;
 
 const StyledMenuLogo = styled.div`
