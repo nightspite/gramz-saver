@@ -19,6 +19,7 @@ const StyledBio = styled.p`
 const StyledExternalUrl = styled.a`
   text-decoration: none;
   color: #208cee;
+  word-break: break-all;
 `;
 
 const FollowButton = ({ fullName, bio, externalUrl }) => (
