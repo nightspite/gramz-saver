@@ -11,7 +11,7 @@ const NotFound = ({ marginLeft }) => (
 );
 
 NotFound.propTypes = {
-  marginLeft: PropTypes.string,
+  marginLeft: PropTypes.number,
 };
 
 NotFound.defaultProps = {
