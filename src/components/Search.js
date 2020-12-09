@@ -6,9 +6,12 @@ import { routes } from 'routes';
 
 const StyledForm = styled.div`
   position: relative;
-  padding: 15px 0 0;
+  padding: 15px 20px 0 20px;
   margin-top: 10px;
-  width: 50%;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledInput = styled.input`
@@ -67,12 +70,12 @@ const StyledLabel = styled.label`
 `;
 
 const StyledLink = styled(Link)`
-  padding: 12px 20px;
-  margin: 10px 15px;
-  color: #222;
-  text-align: center;
+  width: 100%;
   display: block;
+  padding: 12px 0;
   width: 50%;
+  text-align: center;
+  color: #222;
   text-decoration: none;
   border: 10px solid;
   border-width: 3px;
@@ -80,6 +83,10 @@ const StyledLink = styled(Link)`
   border-image-slice: 1;
   border-radius: 3px;
   transition: all 0.3s;
+
+  &:first-child {
+    margin-right: 20px;
+  }
 
   &:hover {
     font-weight: 700;
@@ -92,6 +99,7 @@ const StyledLink = styled(Link)`
 const StyledLinksList = styled.div`
   width: 100%;
   display: flex;
+  margin: 12px 0;
 `;
 
 function Search() {
