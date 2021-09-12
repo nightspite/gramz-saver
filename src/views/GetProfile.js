@@ -1,10 +1,6 @@
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import slimUpProfile from 'functions/slimUpProfile';
 import NotFound from 'components/NotFound';
 import ProfileSidebar from 'components/organisms/ProfileSidebar';
 import GetPosts from 'views/GetPosts';
@@ -27,12 +23,12 @@ function GetProfile({ location }) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        `https://instagram.com/${username}/?__a=1`,
+        `/.netlify/functions/getprofile?username=${username}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );
 
-      setProfile(slimUpProfile(data));
+      setProfile(data);
       setIsLoaded(true);
     };
 

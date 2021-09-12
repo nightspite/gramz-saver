@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -76,6 +75,7 @@ const StyledLink = styled(Link)`
   width: 50%;
   text-align: center;
   color: #222;
+  font-weight: 700;
   text-decoration: none;
   border: 10px solid;
   border-width: 3px;
@@ -89,7 +89,6 @@ const StyledLink = styled(Link)`
   }
 
   &:hover {
-    font-weight: 700;
     border-color: #fff;
     background: linear-gradient(to right, #11998e, #38ef7d);
     color: #fff;

@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import slimUpHighlights from 'functions/slimUpHighlights';
 import NotFound from 'components/NotFound';
 import { routes } from 'routes';
-// import Loading from 'components/molecules/Loading';
 
 const StyledHighlightsWrapper = styled.div`
   margin-top: 30px;
@@ -17,7 +15,6 @@ const StyledHighlightsWrapper = styled.div`
 `;
 
 const StyledHighlight = styled.div`
-  /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,7 +55,6 @@ const ProfileHightlights = ({ userId, number }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // eslint-disable-next-line no-undef
       const data = await fetch(
         `/.netlify/functions/gethighlightsids?user=${userId}&number=${number}`,
       ).then((response) =>

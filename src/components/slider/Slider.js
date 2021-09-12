@@ -1,8 +1,7 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LeftButton, RightButton } from 'components/slider/Arrows';
+import PropTypes from 'prop-types';
 
 const PostContainter = styled.div`
   display: flex;
@@ -24,9 +23,6 @@ const imageWrapper = {
 const StyledImageLinks = styled.div`
   margin-top: -39px;
   display: flex;
-  /* border: 2px solid #fff;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px; */
   background-color: rgba(255, 255, 255, 0.9);
 `;
 
@@ -37,9 +33,6 @@ const StyledLink = styled.a`
   text-decoration: none;
   color: #000;
   font-weight: 600;
-  /* &:last-child {
-    border-left: 2px solid #fff;
-  } */
 `;
 
 const Slider = ({ gramz }) => {
@@ -49,9 +42,9 @@ const Slider = ({ gramz }) => {
 
   const handleNext = () => setSlide((prevIndex) => prevIndex + 1);
 
-  return (
-    <PostContainter>
-      {gramz.sideImages ? (
+  if (gramz.sideImages) {
+    return (
+      <PostContainter>
         <PostWrapper
           postWidth={gramz.sideImages[slideIndex].width}
           postHeight={gramz.sideImages[slideIndex].height}
@@ -92,7 +85,13 @@ const Slider = ({ gramz }) => {
             index={slideIndex}
           />
         </PostWrapper>
-      ) : gramz.isVideo === true ? (
+      </PostContainter>
+    );
+  }
+
+  if (gramz.isVideo) {
+    return (
+      <PostContainter>
         <PostWrapper>
           <div style={imageWrapper}>
             <img src={gramz.thumbnail} alt={gramz.postId} />
@@ -102,19 +101,39 @@ const Slider = ({ gramz }) => {
             </StyledImageLinks>
           </div>
         </PostWrapper>
-      ) : (
-        <PostWrapper>
-          <div style={imageWrapper}>
-            <img src={gramz.thumbnail} alt={gramz.postId} />
-            <StyledImageLinks>
-              <StyledLink href={gramz.image}>Download</StyledLink>
-              <StyledLink href={gramz.postUrl}>Open instagram</StyledLink>
-            </StyledImageLinks>
-          </div>
-        </PostWrapper>
-      )}
+      </PostContainter>
+    );
+  }
+
+  return (
+    <PostContainter>
+      <PostWrapper>
+        <div style={imageWrapper}>
+          <img src={gramz.thumbnail} alt={gramz.postId} />
+          <StyledImageLinks>
+            <StyledLink href={gramz.image}>Download</StyledLink>
+            <StyledLink href={gramz.postUrl}>Open instagram</StyledLink>
+          </StyledImageLinks>
+        </div>
+      </PostWrapper>
     </PostContainter>
   );
+};
+
+Slider.propTypes = {
+  gramz: PropTypes.shape({
+    sideImages: PropTypes.arrayOf(PropTypes.string),
+    postId: PropTypes.string,
+    thumbnail: PropTypes.string,
+    image: PropTypes.string,
+    postUrl: PropTypes.string,
+    isVideo: PropTypes.bool,
+    video: PropTypes.string,
+  }),
+};
+
+Slider.defaultProps = {
+  gramz: {},
 };
 
 export default Slider;

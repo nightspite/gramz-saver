@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-require('isomorphic-fetch');
+import { fetch } from 'isomorphic-fetch';
 
 const cache = {
   lastFetch: 0,
@@ -7,15 +6,13 @@ const cache = {
   id: '',
 };
 
-const slimUpHighlightsIds = (response) => {
-  return {
-    items: response.data.user.edge_highlight_reels.edges.map((edge) => ({
-      hightlightId: edge.node.id,
-      thumbnail: edge.node.cover_media_cropped_thumbnail.url,
-      title: edge.node.title,
-    })),
-  };
-};
+const slimUpHighlightsIds = (response) => ({
+  items: response.data.user.edge_highlight_reels.edges.map((edge) => ({
+    hightlightId: edge.node.id,
+    thumbnail: edge.node.cover_media_cropped_thumbnail.url,
+    title: edge.node.title,
+  })),
+});
 
 async function getHighlightsIds(userId, number) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;

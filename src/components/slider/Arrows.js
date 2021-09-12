@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import leftArrow from 'assets/leftArrow.svg';
 import rightArrow from 'assets/rightArrow.svg';
@@ -45,3 +45,23 @@ export const RightButton = ({ handleNext, end, index }) => (
     <img src={rightArrow} alt="next" />
   </StyledRightButton>
 );
+
+LeftButton.propTypes = {
+  handlePrev: PropTypes.func.isRequired,
+  index: PropTypes.number,
+};
+
+LeftButton.defaultProps = {
+  index: 0,
+};
+
+RightButton.propTypes = {
+  handleNext: PropTypes.func.isRequired,
+  end: PropTypes.number,
+  index: PropTypes.number,
+};
+
+RightButton.defaultProps = {
+  index: 0,
+  end: 0,
+};

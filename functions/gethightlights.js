@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-require('isomorphic-fetch');
+import { fetch } from 'isomorphic-fetch';
 
 const cache = {
   lastFetch: 0,
@@ -7,25 +6,23 @@ const cache = {
   id: '',
 };
 
-const slimUpHightlights = (response) => {
-  return {
-    username: response.data.reels_media[0].owner.username,
-    hightlightId: response.data.reels_media[0].id,
-    items: response.data.reels_media[0].items.map((item) =>
-      item.is_video
-        ? {
-            thumbnail: item.display_resources[0].src,
-            isVideo: item.is_video,
-            video: item.video_resources[0].src,
-          }
-        : {
-            thumbnail: item.display_resources[0].src,
-            isVideo: item.is_video,
-            image: item.display_url,
-          },
-    ),
-  };
-};
+const slimUpHightlights = (response) => ({
+  username: response.data.reels_media[0].owner.username,
+  hightlightId: response.data.reels_media[0].id,
+  items: response.data.reels_media[0].items.map((item) =>
+    item.is_video
+      ? {
+          thumbnail: item.display_resources[0].src,
+          isVideo: item.is_video,
+          video: item.video_resources[0].src,
+        }
+      : {
+          thumbnail: item.display_resources[0].src,
+          isVideo: item.is_video,
+          image: item.display_url,
+        },
+  ),
+});
 
 async function getHightlights(hightlightId) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;

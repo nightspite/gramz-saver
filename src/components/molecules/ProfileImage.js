@@ -39,14 +39,12 @@ const StorySvg = styled.svg`
 
 const ProfileImage = ({ image, user }) => (
   <StyledStory>
-    {/* <a href={profile.image}> */}
     <Link to={routes.stories + user}>
       <StorySvg viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="45" />
       </StorySvg>
       <StoryImage src={image} alt={user} />
     </Link>
-    {/* </a> */}
   </StyledStory>
 );
 
