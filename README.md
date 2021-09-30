@@ -1,3 +1,4 @@
-in development
+Instagram have set `cross-origin-resource-policy: same-origin`, so scraping won't work anymore.
 
-visit page -> link in the description of the project
+I recommend using Instagram API, but it doesn't allow you to fetch stories and highlights...
+https://developers.facebook.com/products/instagram/apis/
