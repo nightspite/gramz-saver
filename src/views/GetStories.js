@@ -36,7 +36,7 @@ function GetStories({ location }) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        `/.netlify/functions/getstories?user=${userId}`,
+        `/.netlify/functions/getstories?userId=${userId}`,
       ).then((response) =>
         response.status !== 200 ? setErrors(response.status) : response.json(),
       );

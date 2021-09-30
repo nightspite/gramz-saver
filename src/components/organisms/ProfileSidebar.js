@@ -53,7 +53,7 @@ ProfileSidebar.propTypes = {
     username: PropTypes.string.isRequired,
     fullName: PropTypes.string.isRequired,
     bio: PropTypes.string.isRequired,
-    externalUrl: PropTypes.string.isRequired,
+    externalUrl: PropTypes.string,
     highlights: PropTypes.number.isRequired,
   }).isRequired,
 };

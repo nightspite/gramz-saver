@@ -26,14 +26,20 @@ const FollowButton = ({ fullName, bio, externalUrl }) => (
   <StyledProfileInfo>
     <StylefProfileName>{fullName}</StylefProfileName>
     <StyledBio>{bio}</StyledBio>
-    <StyledExternalUrl href={externalUrl}>{externalUrl}</StyledExternalUrl>
+    {externalUrl && (
+      <StyledExternalUrl href={externalUrl}>{externalUrl}</StyledExternalUrl>
+    )}
   </StyledProfileInfo>
 );
 
 FollowButton.propTypes = {
   fullName: PropTypes.string.isRequired,
   bio: PropTypes.string.isRequired,
-  externalUrl: PropTypes.string.isRequired,
+  externalUrl: PropTypes.string,
+};
+
+FollowButton.defaultProps = {
+  externalUrl: '',
 };
 
 export default FollowButton;

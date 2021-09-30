@@ -1,4 +1,4 @@
-import { fetch } from 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 const cache = {
   lastFetch: 0,

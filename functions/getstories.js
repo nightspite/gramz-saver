@@ -1,9 +1,9 @@
-import { fetch } from 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 const cache = {
   lastFetch: 0,
   stories: [],
-  id: '',
+  userId: '',
 };
 
 const slimUpStories = (response) => ({
@@ -29,7 +29,7 @@ const slimUpStories = (response) => ({
 
 async function getStories(userId) {
   const timeSinceLastFetch = Date.now() - cache.lastFetch;
-  if (timeSinceLastFetch <= 300000 && userId === cache.id) {
+  if (timeSinceLastFetch <= 300000 && userId === cache.userId) {
     return cache.stories;
   }
 
@@ -49,7 +49,7 @@ async function getStories(userId) {
 }
 
 exports.handler = async (event, context, callback) => {
-  const stories = await getStories(event.queryStringParameters.user);
+  const stories = await getStories(event.queryStringParameters.userId);
   callback(null, {
     statusCode: 200,
     headers: {

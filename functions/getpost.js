@@ -1,4 +1,4 @@
-import { fetch } from 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 const cache = {
   lastFetch: 0,
@@ -44,9 +44,11 @@ async function getPost(shortcode) {
     return cache.post;
   }
 
-  const data = await fetch(
-    `https://instagram.com/p/${shortcode}/?__a=1`,
-  ).then((response) => response.json());
+  const data = await fetch(`https://instagram.com/p/${shortcode}/?__a=1`, {
+    headers: {
+      cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,
+    },
+  }).then((response) => response.json());
 
   const post = slimUpPost(data);
   cache.lastFetch = Date.now();

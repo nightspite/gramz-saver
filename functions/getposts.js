@@ -1,4 +1,4 @@
-import { fetch } from 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 const cache = {
   lastFetch: 0,
@@ -31,6 +31,11 @@ async function getPosts(userId) {
 
   const data = await fetch(
     `https://www.instagram.com/graphql/query/?query_hash=e769aa130647d2354c40ea6a439bfc08&variables={"id":${userId},"first":50}`,
+    {
+      headers: {
+        cookie: `sessionid=${process.env.INSTAGRAM_COOKIE}`,
+      },
+    },
   ).then((response) => response.json());
 
   const posts = slimUpPosts(data);
